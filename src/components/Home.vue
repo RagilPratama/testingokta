@@ -66,16 +66,21 @@ export default {
   methods: {
     async setup () {
       console.log(this.$auth);
+      console.log(window.location.origin + '/login/callback')
       if (this.authState?.isAuthenticated) {
         this.claims = await this.$auth.getUser()
       }
     },
     login() {
-      console.log(this.$auth);
-      this.$auth.signInWithRedirect({ originalUri: '/profile' })
-        .catch(error => {
-          console.error('Login error:', error);
-        });
+    const redirectUri = window.location.origin + '/login/callback';
+    console.log('Redirect URI:', redirectUri); // Log redirect URI
+    this.$auth.signInWithRedirect({ originalUri: redirectUri })
+      .then(() => {
+        console.log('Redirecting to Okta...');
+      })
+      .catch(err => {
+        console.error('Error during sign in:', err);
+      });
     }
   }
 }

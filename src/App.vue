@@ -76,11 +76,10 @@ export default {
   name: 'app',
   methods: {
     login () {
-      console.log('sign in kesini')
       this.$auth.signInWithRedirect({ originalUri: '/' })
     },
     async logout () {
-      await this.$auth.signOut()
+      this.$auth.signOut({ postLogoutRedirectUri: 'https://trial-7097749.okta.com/logout/callback' });
     }
   }
 }
